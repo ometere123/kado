@@ -9,12 +9,10 @@ import { Badge } from "@/components/ui/badge";
 import { useRloBalance } from "@/hooks/use-rlo-balance";
 import { formatRlo, cn, getExplorer, setExplorer, Explorer } from "@/lib/utils";
 import { FaucetButton } from "@/components/faucet-button";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const WalletMultiButton = dynamic(
-  () =>
-    import("@solana/wallet-adapter-react-ui").then(
-      (m) => m.WalletMultiButton
-    ),
+  () => import("@solana/wallet-adapter-react-ui").then((m) => m.WalletMultiButton),
   { ssr: false }
 );
 
@@ -30,31 +28,17 @@ export function Header() {
             <Logo />
           </Link>
           <nav className="flex gap-1">
-            <NavLink href="/vault" active={pathname?.startsWith("/vault")}>
-              Vault
-            </NavLink>
-            <NavLink href="/flux" active={pathname?.startsWith("/flux")}>
-              Flux
-            </NavLink>
-            <NavLink href="/stream" active={pathname?.startsWith("/stream")}>
-              Auto-pay
-            </NavLink>
-            <NavLink href="/lockbox" active={pathname?.startsWith("/lockbox")}>
-              Lockbox
-            </NavLink>
-            <NavLink href="/grid" active={pathname?.startsWith("/grid")}>
-              Grid
-            </NavLink>
-            <NavLink href="/account" active={pathname?.startsWith("/account")}>
-              Account
-            </NavLink>
+            <NavLink href="/vault"   active={pathname?.startsWith("/vault")}>Vault</NavLink>
+            <NavLink href="/flux"    active={pathname?.startsWith("/flux")}>Flux</NavLink>
+            <NavLink href="/stream"  active={pathname?.startsWith("/stream")}>Auto-pay</NavLink>
+            <NavLink href="/lockbox" active={pathname?.startsWith("/lockbox")}>Lockbox</NavLink>
+            <NavLink href="/grid"    active={pathname?.startsWith("/grid")}>Grid</NavLink>
+            <NavLink href="/account" active={pathname?.startsWith("/account")}>Account</NavLink>
           </nav>
         </div>
 
         <div className="flex items-center gap-2">
-          <Badge variant="muted" className="hidden sm:inline-flex">
-            Devnet
-          </Badge>
+          <Badge variant="muted" className="hidden sm:inline-flex">Devnet</Badge>
           <ExplorerPicker />
           {balance != null ? (
             <div className="hidden items-center gap-1.5 rounded-md border border-line bg-surface px-2.5 py-1 text-sm font-medium text-ink sm:inline-flex">
@@ -65,6 +49,7 @@ export function Header() {
           ) : null}
           <FaucetButton />
           <WalletMultiButton />
+          <ThemeToggle />
         </div>
       </div>
     </header>
@@ -72,22 +57,16 @@ export function Header() {
 }
 
 function NavLink({
-  href,
-  active,
-  children,
+  href, active, children,
 }: {
-  href: string;
-  active?: boolean;
-  children: React.ReactNode;
+  href: string; active?: boolean; children: React.ReactNode;
 }) {
   return (
     <Link
       href={href}
       className={cn(
         "rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap transition",
-        active
-          ? "bg-brand-wash text-brand"
-          : "text-ink-muted hover:bg-surface hover:text-ink"
+        active ? "bg-brand-wash text-brand" : "text-ink-muted hover:bg-surface hover:text-ink"
       )}
     >
       {children}
@@ -100,8 +79,8 @@ function Logo() {
 }
 
 const EXPLORERS: { value: Explorer; label: string }[] = [
-  { value: "solana.fm", label: "Solana FM" },
-  { value: "solscan", label: "Solscan" },
+  { value: "solana.fm",      label: "Solana FM" },
+  { value: "solscan",        label: "Solscan" },
   { value: "solanaexplorer", label: "Explorer" },
 ];
 
