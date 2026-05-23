@@ -1,0 +1,32 @@
+[toolchain]
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+vault = "7ReQsccnwt5qe3bcE3G3X7t5qmLMBMqzSMKJqu69eeTj"
+flux_amm = "528sS3JkYnhruKWxK4n1mZNJqrVY4qLoRkjmV6D9inVW"
+streamline = "CXcZSw9VYBWE9UiZ6QyXcNugxLYo4AbtdiPY849CQ767"
+lockbox = "3x3vj8CQXrbZuajp7g4eq3bUhbzffbhiXX2RC1UfmGhr"
+forge = "7WZXB6stHDsHgq8fUS4RfSu8UyDJWjHFCQbULGarErp4"
+
+[programs.devnet]
+vault = "7ReQsccnwt5qe3bcE3G3X7t5qmLMBMqzSMKJqu69eeTj"
+flux_amm = "528sS3JkYnhruKWxK4n1mZNJqrVY4qLoRkjmV6D9inVW"
+streamline = "CXcZSw9VYBWE9UiZ6QyXcNugxLYo4AbtdiPY849CQ767"
+lockbox = "3x3vj8CQXrbZuajp7g4eq3bUhbzffbhiXX2RC1UfmGhr"
+forge = "7WZXB6stHDsHgq8fUS4RfSu8UyDJWjHFCQbULGarErp4"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "Localnet"
+wallet = "~/.config/solana/id.json"
+
+[test]
+startup_wait = 30000
+
+[scripts]
+test = "npx ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"

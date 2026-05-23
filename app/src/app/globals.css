@@ -1,0 +1,105 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Rialo light theme — warm beige + teal. */
+@layer base {
+  :root {
+    --background: 34 47% 94%;   /* #F5F0E8 */
+    --foreground: 0 0% 10%;     /* #1A1A1A */
+
+    --card: 60 14% 97%;         /* #FAFAF7 */
+    --card-foreground: 0 0% 10%;
+
+    --popover: 60 14% 97%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 173 58% 39%;     /* #2A9D8F (brand) */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 36 33% 90%;
+    --secondary-foreground: 0 0% 10%;
+
+    --muted: 60 14% 97%;
+    --muted-foreground: 0 0% 42%; /* #6B6B6B */
+
+    --accent: 173 58% 28%;      /* #1F7268 (CTA) */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 36 33% 84%;       /* #E0D9CE */
+    --input: 36 33% 84%;
+    --ring: 173 58% 39%;
+
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+  body {
+    @apply bg-bg text-ink antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Wallet adapter UI — match the brand + slim down to header proportions. */
+.wallet-adapter-button {
+  background-color: #2a9d8f !important;
+  color: #ffffff !important;
+  border-radius: 0.5rem !important;
+  font-family: inherit !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  line-height: 1 !important;
+  height: 32px !important;
+  padding: 0 10px !important;
+}
+
+.wallet-adapter-button-trigger {
+  height: 32px !important;
+}
+
+.wallet-adapter-button:hover:not([disabled]) {
+  background-color: #1f7268 !important;
+}
+
+/* The address-truncation button (when connected) uses a slightly different
+   structure — make sure its inner icon doesn't bloat the height. */
+.wallet-adapter-button .wallet-adapter-button-start-icon,
+.wallet-adapter-button .wallet-adapter-button-end-icon {
+  height: 16px !important;
+  width: 16px !important;
+  margin: 0 6px 0 0 !important;
+}
+.wallet-adapter-button .wallet-adapter-button-end-icon {
+  margin: 0 0 0 6px !important;
+}
+.wallet-adapter-button img {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+.wallet-adapter-modal-wrapper {
+  background: #fafaf7 !important;
+  color: #1a1a1a !important;
+}
+
+.wallet-adapter-modal-title {
+  color: #1a1a1a !important;
+}
+
+.wallet-adapter-modal-list {
+  color: #1a1a1a !important;
+}
+.wallet-adapter-modal-list .wallet-adapter-button {
+  background-color: transparent !important;
+  color: #1a1a1a !important;
+}
+.wallet-adapter-modal-list .wallet-adapter-button:hover {
+  background-color: #e8f5f3 !important;
+}
