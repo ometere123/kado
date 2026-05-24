@@ -7,3 +7,4 @@ out/
 next-env.d.ts
 faucet-claims.json
 faucet-claims.json.tmp
+.vercel

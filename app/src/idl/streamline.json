@@ -1,0 +1,749 @@
+{
+  "address": "CXcZSw9VYBWE9UiZ6QyXcNugxLYo4AbtdiPY849CQ767",
+  "metadata": {
+    "name": "streamline",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Nexus Protocol — Streamline: pre-funded recurring payments with PDA escrow."
+  },
+  "instructions": [
+    {
+      "name": "cancel_schedule",
+      "docs": [
+        "Payer cancels the schedule, recovers any remaining escrow, and closes the PDA."
+      ],
+      "discriminator": [
+        78,
+        206,
+        80,
+        108,
+        51,
+        28,
+        40,
+        140
+      ],
+      "accounts": [
+        {
+          "name": "schedule",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  99,
+                  104,
+                  101,
+                  100,
+                  117,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "schedule.payer",
+                "account": "PaymentSchedule"
+              },
+              {
+                "kind": "account",
+                "path": "schedule.recipient",
+                "account": "PaymentSchedule"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "schedule"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "schedule.rlo_mint",
+                "account": "PaymentSchedule"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "payer_token_account",
+          "writable": true
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "schedule"
+          ]
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "create_schedule",
+      "docs": [
+        "Create a new pre-funded payment schedule. Pulls full amount into escrow now."
+      ],
+      "discriminator": [
+        200,
+        176,
+        213,
+        214,
+        210,
+        121,
+        35,
+        225
+      ],
+      "accounts": [
+        {
+          "name": "schedule",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  99,
+                  104,
+                  101,
+                  100,
+                  117,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "payer"
+              },
+              {
+                "kind": "arg",
+                "path": "recipient"
+              }
+            ]
+          }
+        },
+        {
+          "name": "rlo_mint"
+        },
+        {
+          "name": "escrow_token_account",
+          "docs": [
+            "Escrow ATA owned by the schedule PDA."
+          ],
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "schedule"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "rlo_mint"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "payer_token_account",
+          "docs": [
+            "Payer's source ATA — must already exist."
+          ],
+          "writable": true
+        },
+        {
+          "name": "recipient_account",
+          "docs": [
+            "Recipient's destination ATA — passed so we can sanity-check the pubkey at init.",
+            "(We don't move tokens here; we just verify the address matches the seed-encoded recipient.)",
+            "`address` constraint is enforced inside the handler via `require_keys_eq!`."
+          ]
+        },
+        {
+          "name": "payer",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "associated_token_program",
+          "address": "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "recipient",
+          "type": "pubkey"
+        },
+        {
+          "name": "amount_per_payment",
+          "type": "u64"
+        },
+        {
+          "name": "interval_seconds",
+          "type": "i64"
+        },
+        {
+          "name": "total_payments",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "execute_payment",
+      "docs": [
+        "Permissionless crank. Anyone may call once `interval_seconds` have elapsed."
+      ],
+      "discriminator": [
+        86,
+        4,
+        7,
+        7,
+        120,
+        139,
+        232,
+        139
+      ],
+      "accounts": [
+        {
+          "name": "schedule",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  99,
+                  104,
+                  101,
+                  100,
+                  117,
+                  108,
+                  101
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "schedule.payer",
+                "account": "PaymentSchedule"
+              },
+              {
+                "kind": "account",
+                "path": "schedule.recipient",
+                "account": "PaymentSchedule"
+              }
+            ]
+          }
+        },
+        {
+          "name": "escrow_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "account",
+                "path": "schedule"
+              },
+              {
+                "kind": "const",
+                "value": [
+                  6,
+                  221,
+                  246,
+                  225,
+                  215,
+                  101,
+                  161,
+                  147,
+                  217,
+                  203,
+                  225,
+                  70,
+                  206,
+                  235,
+                  121,
+                  172,
+                  28,
+                  180,
+                  133,
+                  237,
+                  95,
+                  91,
+                  55,
+                  145,
+                  58,
+                  140,
+                  245,
+                  133,
+                  126,
+                  255,
+                  0,
+                  169
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "schedule.rlo_mint",
+                "account": "PaymentSchedule"
+              }
+            ],
+            "program": {
+              "kind": "const",
+              "value": [
+                140,
+                151,
+                37,
+                143,
+                78,
+                36,
+                137,
+                241,
+                187,
+                61,
+                16,
+                41,
+                20,
+                142,
+                13,
+                131,
+                11,
+                90,
+                19,
+                153,
+                218,
+                255,
+                16,
+                132,
+                4,
+                142,
+                123,
+                216,
+                219,
+                233,
+                248,
+                89
+              ]
+            }
+          }
+        },
+        {
+          "name": "recipient_token_account",
+          "docs": [
+            "Anchor enforces that this token account is owned by the recipient encoded in",
+            "the schedule, so an arbitrary cranker can't redirect funds."
+          ],
+          "writable": true
+        },
+        {
+          "name": "cranker",
+          "docs": [
+            "Anyone can pay for the tx; not a signer over the schedule."
+          ],
+          "signer": true
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "PaymentSchedule",
+      "discriminator": [
+        220,
+        252,
+        154,
+        129,
+        139,
+        124,
+        204,
+        75
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "PaymentExecuted",
+      "discriminator": [
+        153,
+        165,
+        141,
+        18,
+        246,
+        20,
+        204,
+        227
+      ]
+    },
+    {
+      "name": "ScheduleCancelled",
+      "discriminator": [
+        3,
+        155,
+        30,
+        237,
+        188,
+        100,
+        170,
+        155
+      ]
+    },
+    {
+      "name": "ScheduleCreated",
+      "discriminator": [
+        168,
+        45,
+        65,
+        87,
+        253,
+        212,
+        125,
+        178
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ZeroAmount",
+      "msg": "Amount per payment must be > 0."
+    },
+    {
+      "code": 6001,
+      "name": "ZeroPayments",
+      "msg": "total_payments must be > 0."
+    },
+    {
+      "code": 6002,
+      "name": "InvalidInterval",
+      "msg": "Interval must be positive (seconds)."
+    },
+    {
+      "code": 6003,
+      "name": "RecipientMismatch",
+      "msg": "Recipient pubkey doesn't match the account provided."
+    },
+    {
+      "code": 6004,
+      "name": "ScheduleComplete",
+      "msg": "Schedule has completed all payments."
+    },
+    {
+      "code": 6005,
+      "name": "IntervalNotElapsed",
+      "msg": "Not enough time has elapsed since the last payment."
+    },
+    {
+      "code": 6006,
+      "name": "InsufficientEscrow",
+      "msg": "Escrow balance is too low for the next payment."
+    },
+    {
+      "code": 6007,
+      "name": "MathOverflow",
+      "msg": "Arithmetic overflow."
+    }
+  ],
+  "types": [
+    {
+      "name": "PaymentExecuted",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "schedule",
+            "type": "pubkey"
+          },
+          {
+            "name": "payments_made",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "executed_at",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PaymentSchedule",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_per_payment",
+            "type": "u64"
+          },
+          {
+            "name": "interval_seconds",
+            "type": "i64"
+          },
+          {
+            "name": "payments_made",
+            "type": "u8"
+          },
+          {
+            "name": "total_payments",
+            "type": "u8"
+          },
+          {
+            "name": "last_executed",
+            "type": "i64"
+          },
+          {
+            "name": "escrow_balance",
+            "type": "u64"
+          },
+          {
+            "name": "rlo_mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ScheduleCancelled",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "refunded",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ScheduleCreated",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "schedule",
+            "type": "pubkey"
+          },
+          {
+            "name": "payer",
+            "type": "pubkey"
+          },
+          {
+            "name": "recipient",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount_per_payment",
+            "type": "u64"
+          },
+          {
+            "name": "interval_seconds",
+            "type": "i64"
+          },
+          {
+            "name": "total_payments",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ]
+}
